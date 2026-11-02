@@ -108,7 +108,7 @@ body{background:radial-gradient(ellipse at 12% 0%,#4a1028 0,transparent 36%),rad
 </nav>
 <div class="authStrip">
   <span class="authHint" id="authStatus">Browsing as a guest • Demo mode</span>
-  <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap"><button class="secondary" onclick="openBackendSetup()">Connect backend</button><button class="secondary" onclick="openAuth('login')">Sign in / Switch account</button><button class="secondary" id="signOutBtn" onclick="signOutAccount()" title="Sign out of your account">Sign out</button></div>
+  <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap"><button class="secondary" disabled>Firebase online</button><button class="secondary" onclick="openAuth('login')">Sign in / Switch account</button><button class="secondary" id="signOutBtn" onclick="signOutAccount()" title="Sign out of your account">Sign out</button></div>
 </div>
 <main><section>
 <div id="feedPage">
@@ -119,7 +119,7 @@ body{background:radial-gradient(ellipse at 12% 0%,#4a1028 0,transparent 36%),rad
 <article class="post"><div class="posthead"><div class="avatar" style="background:linear-gradient(135deg,#ffb65b,#d34b68)">L</div><div><b>art.by.lee</b><small>Seoul, South Korea</small></div><span class="dots">···</span></div><div class="art a3"><div><p>Create without limits</p><h2>Make life<br>your art.</h2></div></div><div class="body"><div class="tools"><button onclick="like(this)">♡</button><button onclick="focusComment(this)">▢</button><button onclick="sharePost()">➤</button><button class="save" onclick="save(this)">♧</button></div><div class="likes">2,041 likes</div><div class="caption"><b>art.by.lee</b> A little colour can change everything. 🎨</div><div class="comments">View all 64 comments</div><div class="commentlist"></div><div class="comment"><input placeholder="Add a comment..." onkeydown="if(event.key==='Enter')addComment(this)"><button onclick="addComment(this.previousElementSibling)">Post</button></div></div></article>
 </div></div>
 <div id="profilePage" class="hidden"><div class="profilecard"><div class="profilehero"><div class="avatar bigavatar" id="profileAvatar">M</div><div><h2 id="profileName" style="margin:0">maha.visuals</h2><span style="color:var(--muted);font-size:12px">Sharing my world ✨</span></div><button class="secondary" style="margin-left:auto" onclick="editProfile()">Edit profile</button></div><div class="stats"><span><b id="postCount">0</b> posts</span><span><b>0</b> followers</span><span><b>0</b> following</span></div><p id="profileBio" style="font-size:13px">Dream • Create • Inspire 🌍</p></div><h3>Your posts</h3><div id="myPosts"></div></div>
-<div id="notificationsPage" class="hidden"><div class="panel"><h3>Notifications</h3><p>💜 Welcome to VISUAL WORLD!</p><p>🌍 Discover creative people around the world.</p><p>✨ Your new posts and interactions will appear here in this demo.</p></div></div>
+<div id="notificationsPage" class="hidden"><div class="panel"><h3>Notifications</h3><p>💜 Welcome to VISUAL WORLD!</p><p>🌍 Discover creative people around the world.</p><p>✨ Your online posts will appear in your feed after you sign in.</p></div></div>
 </section><aside class="sidebar"><div class="panel"><div class="profile"><div class="avatar">M</div><div><b>maha.visuals</b><small>Welcome to Visual World</small></div></div><button class="secondary" style="margin-top:14px;width:100%" onclick="showPage('profile')">View profile</button></div><div class="panel"><h4>Suggested for you</h4><div class="suggest"><div class="avatar">R</div><b>rhea.creates</b><button onclick="follow(this)">Follow</button></div><div class="suggest"><div class="avatar" style="background:#2b9a9a">K</div><b>karthik.travels</b><button onclick="follow(this)">Follow</button></div><div class="suggest"><div class="avatar" style="background:#9c65c7">S</div><b>studio.sana</b><button onclick="follow(this)">Follow</button></div></div><div class="panel"><h4>VISUAL AI STUDIO</h4><p style="font-size:12px;color:var(--muted)">Free creative helper for captions, bios and ideas.</p><button class="primary" style="width:100%" onclick="openAI()">Open AI Studio ✦</button></div><div class="fine">A friendly place to share creativity.<br>VISUAL WORLD · Free prototype</div></aside></main>
 
 <section id="videosPage" class="extraPage hidden">
@@ -143,13 +143,13 @@ body{background:radial-gradient(ellipse at 12% 0%,#4a1028 0,transparent 36%),rad
 </section>
 <nav class="mobile"><button class="ib" onclick="showPage('feed')">⌂</button><button class="ib" onclick="document.getElementById('search').focus()">⌕</button><button class="ib" onclick="openCreate()">＋</button><button class="ib" onclick="showPage('notifications')">♧</button><button class="ib" onclick="showPage('profile')">◉</button></nav>
 
-<div class="modal" id="createModal"><div class="dialog"><button class="close" onclick="closeModal('createModal')">×</button><h3>Create a post</h3><label>Caption</label><textarea id="caption" rows="3" placeholder="Write something about your moment..."></textarea><label>Photo or video (optional)</label><input id="mediaFile" type="file" accept="image/*,video/*"><label>Location (optional)</label><input id="place" placeholder="Add a location"><button class="primary" onclick="publish()">Share post</button><p class="fine">Without Supabase sign-in, posts and media are saved on this device only. Online sharing will be enabled after Supabase setup.</p></div></div>
+<div class="modal" id="createModal"><div class="dialog"><button class="close" onclick="closeModal('createModal')">×</button><h3>Create a post</h3><label>Caption</label><textarea id="caption" rows="3" placeholder="Write something about your moment..."></textarea><label>Photo or video (optional)</label><input id="mediaFile" type="file" accept="image/*,video/*"><label>Location (optional)</label><input id="place" placeholder="Add a location"><button class="primary" onclick="publish()">Share post</button><p class="fine">Signed-in users can publish text posts online now. Photo/video uploads will be enabled after Storage setup.</p></div></div>
 <div class="modal" id="aiModal"><div class="dialog"><button class="close" onclick="closeModal('aiModal')">×</button><h3>✦ VISUAL AI STUDIO</h3><p style="font-size:12px;color:var(--muted)">Free offline creative helper. Choose a tool:</p><div class="tabs"><button class="tab active" onclick="setAITool('caption',this)">Caption</button><button class="tab" onclick="setAITool('bio',this)">Bio</button><button class="tab" onclick="setAITool('hashtags',this)">Hashtags</button><button class="tab" onclick="setAITool('idea',this)">Post ideas</button></div><textarea id="aiPrompt" rows="3" placeholder="Tell me your photo or topic..."></textarea><button class="primary" onclick="runAI()">Generate idea</button><div id="aiOutput" style="white-space:pre-wrap;background:#f7f2fb;border-radius:10px;padding:12px;margin-top:12px;font-size:13px;min-height:60px">Your suggestion will appear here.</div><button class="secondary" style="margin-top:10px" onclick="copyAI()">Copy result</button><p class="fine" style="margin-top:12px">Important: this is a rule-based offline helper, not a connected generative AI model. Real AI image/video generation needs an AI model/service, which may have usage limits or hosting requirements.</p></div></div>
 <div class="modal" id="profileModal"><div class="dialog"><button class="close" onclick="closeModal('profileModal')">×</button><h3>Edit profile</h3><label>Display name</label><input id="editName" value="maha.visuals"><label>Bio</label><textarea id="editBio" rows="3">Dream • Create • Inspire 🌍</textarea><label>Profile photo</label><input id="avatarFile" type="file" accept="image/*"><button class="primary" onclick="saveProfile()">Save profile</button></div></div>
 <div class="modal" id="backendModal"><div class="dialog">
 <button class="close" onclick="closeModal('backendModal')">×</button>
-<h3>Connect VISUAL WORLD backend</h3>
-<p class="muted">Connect a Supabase project to enable real online email sign-up and sign-in.</p>
+<h3>Firebase connection</h3>
+<p class="muted">Firebase is already configured in this version. Use the sign-in panel to create an online account.</p>
 <label>Supabase Project URL</label><input id="sbUrl" placeholder="https://your-project.supabase.co">
 <label>Supabase anon / publishable key</label><textarea id="sbKey" rows="3" placeholder="Paste the anon or publishable key"></textarea>
 <button class="primary" style="width:100%" onclick="saveBackendConfig()">Save connection</button>
@@ -158,16 +158,36 @@ body{background:radial-gradient(ellipse at 12% 0%,#4a1028 0,transparent 36%),rad
 <div class="modal" id="authModal"><div class="dialog">
 <button class="close" onclick="closeModal('authModal')">×</button>
 <h3 id="authTitle">Create your free account</h3>
-<p class="muted">Create an online account when Supabase is connected.</p>
+<p class="muted">Create a real online VISUAL WORLD account with Firebase.</p>
 <div class="tabs"><button class="tab active" id="signupTab" onclick="setAuthMode('signup')">Sign up</button><button class="tab" id="loginTab" onclick="setAuthMode('login')">Sign in</button></div>
 <label>Your name</label><input id="authName" placeholder="Enter your display name">
 <label>Email</label><input id="authEmail" type="email" placeholder="you@example.com">
-<label>Password</label><input id="authPassword" type="password" placeholder="At least 6 characters">
+<label>Password <span id="passwordOptional" class="muted">(not needed in local mode)</span></label><input id="authPassword" type="password" placeholder="Only needed for online sign-in">
 <button class="primary" style="width:100%" id="authSubmit" onclick="submitDemoAuth()">Create demo account</button>
 <button class="secondary" style="width:100%;margin-top:9px" id="forgotPasswordBtn" onclick="sendPasswordReset()">Forgot password?</button>
-<div class="authFormNote">With Supabase connected, sign-up/sign-in uses Supabase Auth. Choose “Forgot password?” to receive a password reset email. Without Supabase, this remains a local demo. Do not reuse a sensitive password while testing.</div>
+<div class="authFormNote">Firebase online sign-in is enabled. Use your own password and never share it. Photo/video uploads and chat will be added in the next setup steps.</div>
 </div></div>
 <div id="toast"></div>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyClE3IXJ0jqyukUqQB-M6XCHzUm5uoB8cg",
+  authDomain: "visual-world-e41e5.firebaseapp.com",
+  databaseURL: "https://visual-world-e41e5-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "visual-world-e41e5",
+  storageBucket: "visual-world-e41e5.firebasestorage.app",
+  messagingSenderId: "137925238098",
+  appId: "1:137925238098:web:27f552c94a4f079652ee8b",
+  measurementId: "G-1SGDY06ETT"
+};
+let vwFirebaseApp=null, vwAuth=null, vwDb=null, vwFirebaseReady=false;
+try {
+  if (window.firebase && !firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  if (window.firebase) { vwFirebaseApp=firebase.app(); vwAuth=firebase.auth(); vwDb=firebase.database(); vwFirebaseReady=true; }
+} catch (e) { console.error('Firebase init failed',e); }
+</script>
 <script>
 let aiTool='caption',myPosts=0,profilePhoto='',authMode='signup',supabaseClient=null,currentUser=null;
 const SUPABASE_CDN='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
@@ -222,13 +242,10 @@ async function initSupabase(){
 }
 async function sendPasswordReset(){
   const email=document.getElementById('authEmail').value.trim().toLowerCase();
-  if(!/^\S+@\S+\.\S+$/.test(email)){toast('Enter your account email first');document.getElementById('authEmail').focus();return}
-  if(!supabaseClient){const ok=await initSupabase();if(!ok||!supabaseClient){toast('Supabase is not connected. Check your internet and backend settings.');return}}
-  try{
-    const {error}=await supabaseClient.auth.resetPasswordForEmail(email);
-    if(error){toast(error.message);return}
-    toast('Password reset email sent. Check your inbox and spam folder.');
-  }catch(e){toast(e?.message||'Could not send reset email. Please try again.')}
+  if(!/^\S+@\S+\.\S+$/.test(email)){toast('Enter your account email first');return}
+  if(!vwAuth){toast('Firebase is not ready. Reload the page and try again.');return}
+  try{await vwAuth.sendPasswordResetEmail(email);toast('Password reset email sent. Check your inbox and spam folder.')}
+  catch(e){toast(e.message||'Could not send reset email')}
 }
 async function submitDemoAuth(){
   const email=document.getElementById('authEmail').value.trim().toLowerCase();
@@ -236,38 +253,39 @@ async function submitDemoAuth(){
   const name=document.getElementById('authName').value.trim();
   if(!/^\S+@\S+\.\S+$/.test(email)){toast('Enter a valid email address');return}
   if(password.length<6){toast('Password must be at least 6 characters');return}
-  if(!supabaseClient)await initSupabase();
-  if(supabaseClient){
-    let result;
+  if(!vwFirebaseReady||!vwAuth||!vwDb){toast('Firebase did not load. Check your internet connection and reload.');return}
+  try{
+    let credential;
     if(authMode==='signup'){
       if(!name){toast('Enter your display name');return}
-      result=await supabaseClient.auth.signUp({email,password,options:{data:{display_name:name}}});
-    }else result=await supabaseClient.auth.signInWithPassword({email,password});
-    if(result.error){toast(result.error.message);return}
-    if(authMode==='signup'&&!result.data.session){toast('Check your email to confirm your account, then sign in.');closeModal('authModal');return}
-    const user=result.data.user;
-    currentUser=result.data.session?.user||null;
-    if(user)applyDemoAccount({name:user.user_metadata?.display_name||name||email.split('@')[0],email});
-    document.getElementById('authStatus').textContent='Signed in online • '+email;
-    updateAuthControls();
+      credential=await vwAuth.createUserWithEmailAndPassword(email,password);
+      await credential.user.updateProfile({displayName:name});
+      await vwDb.ref('users/'+credential.user.uid).set({displayName:name,email:email,createdAt:Date.now()});
+    }else{
+      credential=await vwAuth.signInWithEmailAndPassword(email,password);
+      const u=credential.user;
+      const snap=await vwDb.ref('users/'+u.uid+'/displayName').once('value');
+      const displayName=u.displayName||snap.val()||email.split('@')[0];
+      await vwDb.ref('users/'+u.uid+'/displayName').set(displayName);
+    }
+    currentUser=credential.user;
+    applyDemoAccount({name:currentUser.displayName||name||email.split('@')[0],email:email});
+    document.getElementById('authStatus').textContent='Online • '+email;
     document.getElementById('authPassword').value='';
-    closeModal('authModal');toast(authMode==='signup'?'Online account created':'Signed in online');if(currentUser)await loadOnlinePosts();return;
+    updateAuthControls();closeModal('authModal');toast(authMode==='signup'?'Online account created!':'Signed in successfully!');
+    await loadFirebasePosts();
+  }catch(e){
+    const msg=e.code==='auth/email-already-in-use'?'This email already has an account. Choose Sign in.':e.code==='auth/invalid-credential'?'Email or password is incorrect.':e.code==='auth/weak-password'?'Choose a password with at least 6 characters.':(e.message||'Could not sign in. Try again.');
+    toast(msg);
   }
-  let account;try{account=JSON.parse(localStorage.getItem('vw_demo_account')||'null')}catch(e){account=null}
-  if(authMode==='signup'){
-    if(!name){toast('Enter your display name');return}
-    const data={name,email};localStorage.setItem('vw_demo_account',JSON.stringify(data));applyDemoAccount(data);toast('Local demo profile created');
-  }else{
-    if(!account||account.email!==email){toast('No local demo profile found. Connect Supabase for real accounts.');return}
-    applyDemoAccount(account);toast('Welcome back to this device');
-  }
-  document.getElementById('authPassword').value='';closeModal('authModal');
 }
 function openAuth(mode){setAuthMode(mode);document.getElementById('authModal').classList.add('show')}
 function setAuthMode(mode){
   authMode=mode;
   document.getElementById('authTitle').textContent=mode==='signup'?'Create your VISUAL WORLD account':'Sign in to VISUAL WORLD';
-  document.getElementById('authSubmit').textContent=mode==='signup'?'Create account':'Sign in';
+  document.getElementById('authSubmit').textContent=mode==='signup'?'Create free profile':'Continue on this device';
+  document.getElementById('forgotPasswordBtn').style.display='none';
+  document.getElementById('passwordOptional').textContent='(not needed in free local mode)';
   document.getElementById('signupTab').classList.toggle('active',mode==='signup');
   document.getElementById('loginTab').classList.toggle('active',mode==='login');
   document.getElementById('authName').style.display=mode==='signup'?'block':'none';
@@ -282,19 +300,9 @@ function applyDemoAccount(data){
 }
 function updateAuthControls(){const b=document.getElementById('signOutBtn');if(b)b.style.display='inline-flex';}
 async function signOutAccount(){
-  if(!supabaseClient){const ok=await initSupabase();if(!ok){toast('Connect your Supabase account first');openBackendSetup();return}}
-  if(!currentUser){openAuth('login');toast('You are not signed in yet. Please sign in.');return}
-  const {error}=await supabaseClient.auth.signOut();
-  if(error){toast('Sign out failed: '+error.message);return}
-  currentUser=null;
-  document.getElementById('authStatus').textContent='Supabase connected • Not signed in';
-  document.getElementById('profileName').textContent='maha.visuals';
-  document.getElementById('profileBio').textContent='Dream • Create • Inspire 🌍';
-  document.getElementById('feed').innerHTML='';
-  document.getElementById('myPosts').innerHTML='<div class="empty">Sign in to see your posts.</div>';
-  document.getElementById('postCount').textContent='0';
-  updateAuthControls();
-  toast('Signed out successfully');
+  if(!vwAuth){openAuth('login');return}
+  try{await vwAuth.signOut();currentUser=null;document.getElementById('authStatus').textContent='Not signed in';document.getElementById('feed').innerHTML='';document.getElementById('myPosts').innerHTML='<div class="empty">Sign in to see your posts.</div>';document.getElementById('postCount').textContent='0';toast('Signed out');}
+  catch(e){toast(e.message||'Sign out failed')}
 }
 function toast(s){let t=document.getElementById('toast');t.textContent=s;t.style.display='block';clearTimeout(window.tm);window.tm=setTimeout(()=>t.style.display='none',2200)}
 function closeModal(id){document.getElementById(id).classList.remove('show')}
@@ -465,6 +473,29 @@ async function loadPostSocialState(posts){
     const list=el.querySelector('.commentlist');(commentsRes.data||[]).filter(c=>c.post_id===row.id).forEach(c=>{const d=document.createElement('div');d.textContent=(c.user_id===currentUser?.id?'You':'User')+': '+c.body;list.append(d)});
   });
 }
+async function loadFirebasePosts(){
+  if(!vwDb||!vwAuth||!vwAuth.currentUser)return;
+  try{
+    const snap=await vwDb.ref('posts').orderByChild('createdAt').limitToLast(50).once('value');
+    const rows=[];snap.forEach(child=>rows.push({id:child.key,...child.val()}));
+    rows.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+    const feed=document.getElementById('feed');feed.innerHTML='';
+    rows.forEach(row=>{
+      const el=renderOnlinePost({id:row.id,caption:row.caption||'',created_at:new Date(row.createdAt||Date.now()).toISOString(),profiles:{display_name:row.author||'VISUAL WORLD user'},media_url:null,media_type:null});
+      el.dataset.firebasePost='1';el.dataset.postId=row.id;feed.append(el);
+    });
+    const mine=rows.filter(r=>r.uid===vwAuth.currentUser.uid);
+    const my=document.getElementById('myPosts');my.innerHTML='';
+    mine.forEach(row=>{const el=renderOnlinePost({id:row.id,caption:row.caption||'',created_at:new Date(row.createdAt||Date.now()).toISOString(),profiles:{display_name:row.author||'You'},media_url:null,media_type:null});el.dataset.firebasePost='1';my.append(el)});
+    document.getElementById('postCount').textContent=String(mine.length);
+  }catch(e){console.error(e);toast('Could not load online posts: '+(e.message||''))}
+}
+async function publishFirebaseTextPost(caption,place){
+  const user=vwAuth?.currentUser;if(!user)throw new Error('Please sign in to publish online.');
+  const row={uid:user.uid,author:user.displayName||user.email.split('@')[0],caption:caption,place:place||'',createdAt:firebase.database.ServerValue.TIMESTAMP};
+  await vwDb.ref('posts').push(row);
+  await loadFirebasePosts();
+}
 function sharePost(){if(navigator.clipboard){navigator.clipboard.writeText(location.href).then(()=>toast('Page link copied')).catch(()=>toast('Share this page from your browser menu'))}else toast('Share this page from your browser menu')}
 function renderOnlinePost(row){
   const p=document.createElement('article');p.className='post';p.dataset.postId=row.id;
@@ -502,23 +533,13 @@ async function publish(){
   if(!(file.type.startsWith('image/')||file.type.startsWith('video/'))){toast('Choose an image or video file');return}
   if(file.size>50*1024*1024){toast('Choose a file under 50 MB');return}
  }
- const btn=document.querySelector('#createModal .primary');btn.disabled=true;btn.textContent=file?'Saving media...':'Sharing...';
+ const btn=document.querySelector('#createModal .primary');btn.disabled=true;btn.textContent='Sharing...';
  try{
-  if(supabaseClient&&currentUser){
-   let media_url=null,media_type=null,uploadedPath=null;
-   if(file){
-    const safeName=(file.name||'upload').replace(/[^a-zA-Z0-9._-]/g,'_').slice(-70);
-    uploadedPath=currentUser.id+'/'+Date.now()+'_'+safeName;
-    const {data:up,error:ue}=await supabaseClient.storage.from('vw-media').upload(uploadedPath,file,{cacheControl:'3600',upsert:false,contentType:file.type||undefined});
-    if(ue)throw ue;
-    media_url=supabaseClient.storage.from('vw-media').getPublicUrl(up.path).data.publicUrl;media_type=file.type.startsWith('video/')?'video':'image';
-   }
-   const {data,error}=await supabaseClient.from('posts').insert({user_id:currentUser.id,caption:cap,media_url,media_type}).select('id,user_id,caption,media_url,media_type,created_at').single();
-   if(error){if(uploadedPath)await supabaseClient.storage.from('vw-media').remove([uploadedPath]);throw error}
-   document.getElementById('feed').prepend(renderOnlinePost(data));myPosts++;document.getElementById('postCount').textContent=myPosts;
+  if(vwAuth?.currentUser){
+    if(file){toast('Online photo/video storage is the next setup step. For now, share a text post or remove the file.');return}
+    await publishFirebaseTextPost(cap,place);toast('Your post is now online!');
   }else{
-   await vwCreateLocalPost(cap,file,place);
-   toast('Saved on this device. Online sync can be added after Supabase login is fixed.');
+    await vwCreateLocalPost(cap,file,place);toast('Saved on this device. Sign in for online text posts.');
   }
   closeModal('createModal');document.getElementById('caption').value='';document.getElementById('mediaFile').value='';document.getElementById('place').value='';
  }catch(error){console.error(error);toast('Could not share: '+(error.message||'Please try again'))}
@@ -538,7 +559,6 @@ async function saveProfile(){let n=document.getElementById('editName').value.tri
 document.getElementById('search').addEventListener('input',e=>{let q=e.target.value.toLowerCase();showPage('feed');document.querySelectorAll('#feed .post').forEach(p=>p.style.display=p.innerText.toLowerCase().includes(q)?'':'none')});
 
 try{const savedDemo=JSON.parse(localStorage.getItem('vw_demo_account')||'null');if(savedDemo)applyDemoAccount(savedDemo)}catch(e){}
-initSupabase();
 let searchMode='web';
 function switchMainPage(page,button){
   ['feedPage','profilePage','notificationsPage','videosPage','searchPage'].forEach(id=>document.getElementById(id)?.classList.add('hidden'));
@@ -605,5 +625,6 @@ async function addLocalStory(input){const f=input.files[0];if(!f)return;if(f.siz
 // Keep account controls visible, then restore the online session.
 updateAuthControls();
 try{const prof=JSON.parse(localStorage.getItem('vw_profile')||'null');if(prof){document.getElementById('profileName').textContent=prof.name;document.getElementById('profileBio').textContent=prof.bio;document.querySelector('.sidebar .profile b').textContent=prof.name}}catch(e){}
-(async()=>{try{const avatar=await vwGetBlob('vw-profile-avatar');if(avatar){const u=URL.createObjectURL(avatar);document.getElementById('profileAvatar').innerHTML='<img src="'+u+'">';document.getElementById('headAvatar').innerHTML='<img src="'+u+'">'}}catch(e){}vwRenderStories();vwRenderNotifications();await vwRenderLocalPosts();await vwRestoreVideos();const ok=await initSupabase();if(ok&&currentUser)await loadOnlinePosts()})();
+if(vwAuth){vwAuth.onAuthStateChanged(async user=>{currentUser=user||null;if(user){const displayName=user.displayName||user.email?.split('@')[0]||'VISUAL WORLD user';applyDemoAccount({name:displayName,email:user.email||''});document.getElementById('authStatus').textContent='Online • '+(user.email||'');updateAuthControls();await loadFirebasePosts()}else{document.getElementById('authStatus').textContent='Not signed in'}})}
+(async()=>{try{const avatar=await vwGetBlob('vw-profile-avatar');if(avatar){const u=URL.createObjectURL(avatar);document.getElementById('profileAvatar').innerHTML='<img src="'+u+'">';document.getElementById('headAvatar').innerHTML='<img src="'+u+'">'}}catch(e){}vwRenderStories();vwRenderNotifications();await vwRenderLocalPosts();await vwRestoreVideos();if(vwAuth?.currentUser){currentUser=vwAuth.currentUser;await loadFirebasePosts()}})();
 </script></body></html>
