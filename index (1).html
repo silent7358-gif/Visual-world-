@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090711">
+<title>VISUAL WORLD</title>
+<style>
+:root{--bg:#faf8fc;--surface:#fff;--ink:#241b2b;--muted:#857b8c;--line:#eee7f2;--purple:#8438d2;--pink:#f04f91;--soft:#f5effa}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px system-ui,-apple-system,Segoe UI,sans-serif}button,input,textarea{font:inherit}button{cursor:pointer}
+header{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(14px,calc((100vw - 1100px)/2));position:sticky;top:0;z-index:5;gap:13px}.brand{font-weight:950;font-size:21px;letter-spacing:-1px;background:linear-gradient(90deg,#7934d0,#f04e91);background-clip:text;color:transparent;white-space:nowrap}.search{width:min(32vw,300px);padding:10px 13px;border:0;border-radius:10px;background:#f3eff6;outline:none}.head{display:flex;align-items:center;gap:13px}.ib{border:0;background:none;font-size:22px;color:var(--ink);padding:4px}.avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:white;font-weight:800;background:linear-gradient(135deg,#ffc35a,#f04e91,#8438d2);overflow:hidden}.avatar img{width:100%;height:100%;object-fit:cover}
+main{max-width:1030px;margin:23px auto;display:grid;grid-template-columns:minmax(0,650px) 300px;gap:27px;padding:0 14px}.stories,.post,.panel,.profilecard{background:var(--surface);border:1px solid var(--line);border-radius:14px}.stories{display:flex;gap:17px;padding:15px;overflow:auto;margin-bottom:18px}.story{min-width:61px;text-align:center;font-size:11px;color:var(--muted);cursor:pointer}.ring{width:57px;height:57px;border-radius:50%;padding:3px;margin:0 auto 5px;background:linear-gradient(135deg,#ffc35a,#f04e91,#8438d2)}.ring span{height:100%;border:2px solid white;border-radius:50%;display:grid;place-items:center;background:#f2edf7;font-size:22px;overflow:hidden}.ring img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.post{overflow:hidden;margin-bottom:18px}.posthead{display:flex;align-items:center;gap:10px;padding:12px 14px}.posthead b{font-size:13px}.posthead small{display:block;color:var(--muted);font-size:11px}.dots{margin-left:auto;font-size:21px}.art{height:360px;display:grid;place-items:center;text-align:center;color:white;padding:24px;background-size:cover;background-position:center}.art h2{font-size:clamp(34px,6vw,58px);line-height:1.02;letter-spacing:-2px;margin:0;text-shadow:0 4px 20px #0005}.art p{letter-spacing:3px;text-transform:uppercase;font-size:12px}.a1{background-image:radial-gradient(circle at 70% 25%,#ffe18c,transparent 27%),linear-gradient(145deg,#fc8064,#913acb 65%,#25134f)}.a2{background-image:radial-gradient(circle at 30% 30%,#d5ffdf,transparent 28%),linear-gradient(145deg,#087e8b,#1e3b70 70%,#15172e)}.a3{background-image:radial-gradient(circle at 65% 35%,#fff1ba,transparent 25%),linear-gradient(145deg,#d34b68,#622c91 65%,#19153f)}.postmedia{width:100%;max-height:520px;object-fit:cover;display:block;background:#eee}
+.body{padding:12px 14px}.tools{display:flex;gap:14px}.tools button{border:0;background:none;font-size:23px;padding:0}.tools .save{margin-left:auto}.likes{font-weight:750;font-size:13px;margin:9px 0 5px}.caption{font-size:13px;line-height:1.5;overflow-wrap:anywhere}.comments{color:var(--muted);font-size:12px;margin-top:6px}.comment{display:flex;border-top:1px solid var(--line);padding-top:9px;margin-top:10px}.comment input{border:0;outline:0;flex:1;min-width:0}.comment button{border:0;background:none;color:var(--purple);font-weight:700}.commentlist{font-size:12px;margin-top:7px}.commentlist div{margin-top:4px}.panel{padding:16px;margin-bottom:14px}.profile{display:flex;align-items:center;gap:10px}.profile small{display:block;color:var(--muted);font-size:11px}.panel h4{margin:0 0 13px;color:var(--muted);font-size:12px}.suggest{display:flex;align-items:center;gap:8px;margin:12px 0;font-size:12px}.suggest button{margin-left:auto;border:0;background:none;color:var(--purple);font-weight:700}.fine{font-size:11px;color:#aaa;line-height:1.7}.primary{background:linear-gradient(90deg,#8438d2,#f04f91);color:#fff;border:0;border-radius:10px;padding:11px 16px;font-weight:750}.secondary{background:var(--soft);color:var(--purple);border:0;border-radius:9px;padding:9px 12px;font-weight:700}.modal{display:none;position:fixed;inset:0;background:#0008;z-index:10;place-items:center;padding:14px}.modal.show{display:grid}.dialog{background:white;padding:22px;border-radius:17px;width:min(480px,100%);max-height:90vh;overflow:auto}.dialog h3{margin:0 0 15px}.dialog input,.dialog textarea,.dialog select{width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;margin:6px 0 12px;outline-color:#b88add}.close{float:right;border:0;background:none;font-size:23px}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}.tab{border:0;background:var(--soft);padding:8px 11px;border-radius:9px;color:var(--purple);font-weight:700}.tab.active{background:var(--purple);color:#fff}.hidden{display:none!important}.profilecard{padding:20px;margin-bottom:18px}.profilehero{display:flex;align-items:center;gap:14px}.bigavatar{width:75px;height:75px;font-size:25px}.stats{display:flex;gap:23px;margin:17px 0;font-size:13px}.stats b{display:block;text-align:center}.empty{text-align:center;padding:45px 15px;color:var(--muted)}#toast{position:fixed;bottom:75px;left:50%;transform:translateX(-50%);background:#241c2b;color:white;padding:10px 15px;border-radius:20px;display:none;z-index:20;font-size:12px}.mobile{display:none}
+@media(max-width:780px){main{display:block;margin:12px auto;padding:0 8px}.sidebar{display:none}.art{height:320px}.mobile{display:flex;position:fixed;bottom:0;left:0;right:0;justify-content:space-around;padding:8px;background:#fff;border-top:1px solid var(--line);z-index:6}.search{width:28vw}.head{gap:7px}body{padding-bottom:60px}}
+
+.navbar{max-width:1030px;margin:14px auto 0;padding:0 14px;display:flex;gap:8px;overflow:auto}
+.navitem{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:10px;padding:9px 13px;font-weight:750;white-space:nowrap}
+.navitem.active{background:var(--purple);color:#fff;border-color:var(--purple)}
+.extraPage{max-width:1030px;margin:18px auto;padding:0 14px}
+.sectionTitle{font-size:22px;margin:8px 0 5px}
+.muted{color:var(--muted);font-size:13px}
+.videoGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:15px}
+.videoCard{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.videoCard video{width:100%;aspect-ratio:16/9;background:#17121d;display:block;object-fit:cover}
+.videoPlaceholder{aspect-ratio:16/9;background:linear-gradient(135deg,#28174c,#8438d2,#f04f91);color:white;display:grid;place-items:center;font-size:44px}
+.videoInfo{padding:12px}.videoInfo b{display:block}.videoActions{display:flex;gap:12px;margin-top:9px}.videoActions button{border:0;background:var(--soft);color:var(--purple);border-radius:8px;padding:7px 10px}
+.searchBox{display:flex;gap:8px;margin:15px 0}.searchBox input{flex:1;min-width:0;padding:12px;border:1px solid var(--line);border-radius:10px}
+.searchResults{display:grid;gap:10px}.resultCard{background:white;border:1px solid var(--line);border-radius:12px;padding:14px}
+.resultCard a{color:var(--purple);font-weight:750;text-decoration:none}.resultCard p{font-size:13px;color:var(--muted);margin:6px 0 0}
+.authStrip{max-width:1030px;margin:12px auto 0;padding:0 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.authStrip .authHint{font-size:12px;color:var(--muted)}
+.authStatus{font-size:12px;font-weight:750;color:var(--purple)}
+.authFormNote{font-size:12px;line-height:1.55;color:var(--muted);background:#f7f2fb;border-radius:10px;padding:11px;margin:4px 0 12px}
+.featureNote{background:#f7f2fb;border-radius:12px;padding:12px;font-size:12px;color:#695b73;line-height:1.6;margin-top:14px}
+@media(max-width:600px){.videoGrid{grid-template-columns:1fr}.extraPage{padding:0 9px}.navbar{padding:0 9px}}
+
+/* VISUAL WORLD original midnight theme */
+:root{color-scheme:dark;--bg:#080711;--surface:#100d1b;--ink:#f5f0ff;--muted:#aaa0bf;--line:#29213d;--purple:#a855f7;--pink:#168cff;--soft:#1a1430}
+body{background:radial-gradient(ellipse at 15% 0%,#21103c 0,transparent 38%),radial-gradient(ellipse at 90% 8%,#091d3b 0,transparent 32%),var(--bg);color:var(--ink)}
+header{background:rgba(10,8,19,.94);border-color:var(--line);backdrop-filter:blur(16px)}
+.brand{background:linear-gradient(90deg,#c084fc,#60a5fa);background-clip:text;color:transparent;letter-spacing:.2px}
+.search,.searchBox input{background:#171226;color:var(--ink);border:1px solid #30264a}
+.ib{color:var(--ink)}
+.avatar{background:linear-gradient(135deg,#8b5cf6,#168cff)}
+.stories,.post,.panel,.profilecard,.videoCard,.resultCard{background:linear-gradient(145deg,#151024,#0e0b18);border-color:var(--line);box-shadow:0 12px 34px #0005}
+.ring{background:linear-gradient(135deg,#c084fc,#168cff)}
+.ring span{border-color:#100d1b;background:#201735;color:#f5f0ff}
+.art{filter:saturate(1.12)}
+.a1{background-image:radial-gradient(circle at 70% 25%,#c084fc88,transparent 27%),linear-gradient(145deg,#29134d,#253d79 65%,#090b1c)}
+.a2{background-image:radial-gradient(circle at 30% 30%,#168cff77,transparent 28%),linear-gradient(145deg,#071f38,#1b2861 70%,#090b1c)}
+.a3{background-image:radial-gradient(circle at 65% 35%,#c084fc77,transparent 25%),linear-gradient(145deg,#271344,#182d5c 65%,#090b1c)}
+.postmedia{background:#080711}.body{color:var(--ink)}
+.tools button{color:#e9ddff}.comment{border-color:var(--line)}.comment input{background:transparent;color:var(--ink)}
+.panel h4,.posthead small,.profile small,.muted,.fine{color:var(--muted)}
+.primary{background:linear-gradient(100deg,#8b5cf6,#168cff);box-shadow:0 5px 22px #5b21b655}
+.secondary,.tab,.videoActions button{background:#211735;color:#d9c5ff}
+.navitem{background:#120e20;color:var(--ink);border-color:var(--line)}.navitem.active,.tab.active{background:linear-gradient(100deg,#8b5cf6,#168cff);border-color:transparent;color:white}
+.modal{background:#020108c9;backdrop-filter:blur(8px)}.dialog{background:#120e20;color:var(--ink);border:1px solid var(--line);box-shadow:0 24px 80px #0009}
+.dialog input,.dialog textarea,.dialog select{background:#0b0914;color:var(--ink);border-color:#34294c}
+.authFormNote,.featureNote{background:#1b1530;color:#c8b9e5}.authStatus{color:#b88cff}
+.resultCard a{color:#9bcbff}#toast{background:#211735;color:#fff;border:1px solid #49366d}
+.mobile{background:rgba(12,9,21,.97);border-color:var(--line);backdrop-filter:blur(14px)}
+@media(max-width:780px){.mobile{background:rgba(12,9,21,.97)}}
+
+
+/* VISUAL WORLD crimson accents: midnight black + deep red + vivid red, with purple/blue details */
+:root{--red:#ff304f;--deep-red:#650d24;--soft-red:#2a0c19}
+body{background:radial-gradient(ellipse at 12% 0%,#4a1028 0,transparent 36%),radial-gradient(ellipse at 88% 10%,#111d43 0,transparent 31%),radial-gradient(ellipse at 55% 100%,#260914 0,transparent 42%),var(--bg)}
+.brand{background:linear-gradient(90deg,#ff536d,#b51f46 48%,#8b5cf6 78%,#60a5fa);background-clip:text;color:transparent}
+.avatar{background:linear-gradient(135deg,#8f1234,#ff304f,#8b5cf6)}
+.ring{background:linear-gradient(135deg,#ff304f,#8f1234,#8b5cf6,#168cff)}
+.a1{background-image:radial-gradient(circle at 70% 25%,#ff536d99,transparent 27%),linear-gradient(145deg,#650d24,#321044 62%,#090b1c)}
+.a2{background-image:radial-gradient(circle at 30% 30%,#168cff77,transparent 28%),linear-gradient(145deg,#071f38,#1b2861 70%,#090b1c)}
+.a3{background-image:radial-gradient(circle at 65% 35%,#ff304f88,transparent 25%),linear-gradient(145deg,#650d24,#321344 65%,#090b1c)}
+.primary{background:linear-gradient(100deg,#8f1234,#ff304f 58%,#8b5cf6);box-shadow:0 5px 24px #ff304f44}
+.secondary,.tab,.videoActions button{background:linear-gradient(120deg,#2a0c19,#211735);color:#ffb4c1;border:1px solid #612039}
+.navitem.active,.tab.active{background:linear-gradient(100deg,#8f1234,#ff304f 55%,#8b5cf6);border-color:transparent;color:white}
+.authStatus{color:#ff7189}.resultCard a{color:#ff8da0}
+.authFormNote,.featureNote{background:#260f1b;color:#f0bfd0}
+#toast{background:#2a0c19;border:1px solid #8f1234}
+
+
+/* Midnight Crimson accent refinement */
+:root{--crimson:#ef233c;--deepred:#7f1024;--blue:#168cff;--purple:#a855f7}
+.brand{background:linear-gradient(90deg,#ff344f,#a855f7,#168cff);background-clip:text;color:transparent}
+.avatar{background:linear-gradient(135deg,#ef233c,#a855f7,#168cff)}
+.ring{background:linear-gradient(135deg,#ef233c,#a855f7,#168cff)}
+.primary{background:linear-gradient(100deg,#9f1239,#ef233c 48%,#168cff);box-shadow:0 5px 22px #ef233c33}
+.secondary,.tab,.videoActions button{color:#e8d8ff;border:1px solid #3b2548;background:linear-gradient(110deg,#251126,#151b35)}
+.tab.active,.navitem.active{background:linear-gradient(100deg,#9f1239,#a855f7,#168cff);border-color:transparent;color:white}
+.comment button{color:#ff536b}
+.authStatus{color:#ff536b}
+.a3{background-image:radial-gradient(circle at 65% 35%,#ef233c88,transparent 25%),linear-gradient(145deg,#4b1022,#271344 65%,#09152d)}
+.videoPlaceholder{background:linear-gradient(135deg,#4b1022,#8b1d3b,#4b2380,#123d73)}
+#toast{background:linear-gradient(100deg,#6f1027,#21142f);border:1px solid #65304d}
+
+
+.postmedia{display:block;width:100%;max-height:620px;object-fit:contain;background:#090711}
+@media(max-width:640px){.postmedia{max-height:480px}}
+</style></head>
+<body>
+<header><div class="brand">✦ VISUAL WORLD</div><input id="search" class="search" placeholder="Search posts or people..."><div class="head"><button class="ib" onclick="openCreate()" title="Create">＋</button><button class="ib" onclick="showPage('notifications')" title="Notifications">♧</button><button class="ib" onclick="openAI()" title="AI Studio">✦</button><button class="ib" onclick="showPage('profile')" title="Profile"><span class="avatar" id="headAvatar">M</span></button></div></header>
+<nav class="navbar">
+<button class="navitem active" data-page="feed" onclick="switchMainPage('feed',this)">⌂ Home</button>
+<button class="navitem" data-page="videos" onclick="switchMainPage('videos',this)">▶ Videos</button>
+<button class="navitem" data-page="search" onclick="switchMainPage('search',this)">⌕ Explore Search</button>
+<button class="navitem" data-page="ai" onclick="switchMainPage('ai',this)">✦ AI Studio</button>
+</nav>
+<div class="authStrip">
+  <span class="authHint" id="authStatus">Browsing as a guest • Demo mode</span>
+  <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap"><button class="secondary" onclick="openBackendSetup()">Connect backend</button><button class="secondary" onclick="openAuth('login')">Sign in / Switch account</button><button class="secondary" id="signOutBtn" onclick="signOutAccount()" title="Sign out of your account">Sign out</button></div>
+</div>
+<main><section>
+<div id="feedPage">
+<div class="stories" id="stories"><div class="story" onclick="openStory()"><div class="ring"><span>＋</span></div>Your story</div><input id="storyFile" type="file" accept="image/*,video/*" hidden onchange="addLocalStory(this)"><div class="story"><div class="ring"><span>🌸</span></div>ananya</div><div class="story"><div class="ring"><span>🏔️</span></div>travelwith_jo</div><div class="story"><div class="ring"><span>🎨</span></div>art.by.lee</div><div class="story"><div class="ring"><span>🌊</span></div>ocean.days</div><div class="story"><div class="ring"><span>☀️</span></div>sunny_vibes</div></div>
+<div id="feed">
+<article class="post"><div class="posthead"><div class="avatar">A</div><div><b>ananya.frames</b><small>Kyoto, Japan</small></div><span class="dots">···</span></div><div class="art a1"><div><p>Explore the world</p><h2>Find your<br>own sunshine.</h2></div></div><div class="body"><div class="tools"><button onclick="like(this)">♡</button><button onclick="focusComment(this)">▢</button><button onclick="sharePost()">➤</button><button class="save" onclick="save(this)">♧</button></div><div class="likes">1,284 likes</div><div class="caption"><b>ananya.frames</b> Every little journey leaves a beautiful story. ✨ #visualworld #travel</div><div class="comments">View all 38 comments</div><div class="commentlist"></div><div class="comment"><input placeholder="Add a comment..." onkeydown="if(event.key==='Enter')addComment(this)"><button onclick="addComment(this.previousElementSibling)">Post</button></div></div></article>
+<article class="post"><div class="posthead"><div class="avatar" style="background:linear-gradient(135deg,#3cc9b0,#2362a8)">J</div><div><b>travelwith_jo</b><small>New Zealand</small></div><span class="dots">···</span></div><div class="art a2"><div><p>Take a deep breath</p><h2>Somewhere<br>between sea<br>& sky.</h2></div></div><div class="body"><div class="tools"><button onclick="like(this)">♡</button><button onclick="focusComment(this)">▢</button><button onclick="sharePost()">➤</button><button class="save" onclick="save(this)">♧</button></div><div class="likes">926 likes</div><div class="caption"><b>travelwith_jo</b> Collect moments, not things. 🌿</div><div class="comments">View all 21 comments</div><div class="commentlist"></div><div class="comment"><input placeholder="Add a comment..." onkeydown="if(event.key==='Enter')addComment(this)"><button onclick="addComment(this.previousElementSibling)">Post</button></div></div></article>
+<article class="post"><div class="posthead"><div class="avatar" style="background:linear-gradient(135deg,#ffb65b,#d34b68)">L</div><div><b>art.by.lee</b><small>Seoul, South Korea</small></div><span class="dots">···</span></div><div class="art a3"><div><p>Create without limits</p><h2>Make life<br>your art.</h2></div></div><div class="body"><div class="tools"><button onclick="like(this)">♡</button><button onclick="focusComment(this)">▢</button><button onclick="sharePost()">➤</button><button class="save" onclick="save(this)">♧</button></div><div class="likes">2,041 likes</div><div class="caption"><b>art.by.lee</b> A little colour can change everything. 🎨</div><div class="comments">View all 64 comments</div><div class="commentlist"></div><div class="comment"><input placeholder="Add a comment..." onkeydown="if(event.key==='Enter')addComment(this)"><button onclick="addComment(this.previousElementSibling)">Post</button></div></div></article>
+</div></div>
+<div id="profilePage" class="hidden"><div class="profilecard"><div class="profilehero"><div class="avatar bigavatar" id="profileAvatar">M</div><div><h2 id="profileName" style="margin:0">maha.visuals</h2><span style="color:var(--muted);font-size:12px">Sharing my world ✨</span></div><button class="secondary" style="margin-left:auto" onclick="editProfile()">Edit profile</button></div><div class="stats"><span><b id="postCount">0</b> posts</span><span><b>0</b> followers</span><span><b>0</b> following</span></div><p id="profileBio" style="font-size:13px">Dream • Create • Inspire 🌍</p></div><h3>Your posts</h3><div id="myPosts"></div></div>
+<div id="notificationsPage" class="hidden"><div class="panel"><h3>Notifications</h3><p>💜 Welcome to VISUAL WORLD!</p><p>🌍 Discover creative people around the world.</p><p>✨ Your new posts and interactions will appear here in this demo.</p></div></div>
+</section><aside class="sidebar"><div class="panel"><div class="profile"><div class="avatar">M</div><div><b>maha.visuals</b><small>Welcome to Visual World</small></div></div><button class="secondary" style="margin-top:14px;width:100%" onclick="showPage('profile')">View profile</button></div><div class="panel"><h4>Suggested for you</h4><div class="suggest"><div class="avatar">R</div><b>rhea.creates</b><button onclick="follow(this)">Follow</button></div><div class="suggest"><div class="avatar" style="background:#2b9a9a">K</div><b>karthik.travels</b><button onclick="follow(this)">Follow</button></div><div class="suggest"><div class="avatar" style="background:#9c65c7">S</div><b>studio.sana</b><button onclick="follow(this)">Follow</button></div></div><div class="panel"><h4>VISUAL AI STUDIO</h4><p style="font-size:12px;color:var(--muted)">Free creative helper for captions, bios and ideas.</p><button class="primary" style="width:100%" onclick="openAI()">Open AI Studio ✦</button></div><div class="fine">A friendly place to share creativity.<br>VISUAL WORLD · Free prototype</div></aside></main>
+
+<section id="videosPage" class="extraPage hidden">
+  <h2 class="sectionTitle">▶ VISUAL WORLD Videos</h2>
+  <p class="muted">Watch sample videos or add a video from your phone to this demo.</p>
+  <button class="primary" onclick="document.getElementById('videoUpload').click()">＋ Upload a video</button>
+  <input id="videoUpload" type="file" accept="video/*" hidden onchange="addDemoVideo(this)">
+  <div class="videoGrid" id="videoGrid">
+    <article class="videoCard"><div class="videoPlaceholder">▶</div><div class="videoInfo"><b>Explore beautiful places</b><span class="muted">VISUAL WORLD • Sample video card</span><div class="videoActions"><button onclick="videoLike(this)">♡ Like</button><button onclick="toast('Demo comments are not synced online')">▢ Comment</button><button onclick="toast('Video discovery will be built inside VISUAL WORLD')">Explore in VISUAL WORLD</button></div></div></article>
+    <article class="videoCard"><div class="videoPlaceholder" style="background:linear-gradient(135deg,#075b65,#1e3b70,#121a35)">▶</div><div class="videoInfo"><b>Creative ideas and inspiration</b><span class="muted">VISUAL WORLD • Sample video card</span><div class="videoActions"><button onclick="videoLike(this)">♡ Like</button><button onclick="toast('Demo comments are not synced online')">▢ Comment</button><button onclick="toast('Video discovery will be built inside VISUAL WORLD')">Explore in VISUAL WORLD</button></div></div></article>
+  </div>
+  <div class="featureNote">This prototype is not yet a public video platform. Local video previews stay on this device. Public video hosting, channels, subscriptions and worldwide sharing need a real server and storage.</div>
+</section>
+<section id="searchPage" class="extraPage hidden">
+  <h2 class="sectionTitle">⌕ Search the world</h2>
+  <p class="muted">Search your VISUAL WORLD demo posts, or open public web results.</p>
+  <div class="searchBox"><input id="worldSearch" placeholder="Search anything..."><button class="primary" onclick="runWorldSearch()">Search</button></div>
+  <div class="tabs"><button class="tab active" onclick="setSearchMode('web',this)">Web</button><button class="tab" onclick="setSearchMode('images',this)">Images</button><button class="tab" onclick="setSearchMode('videos',this)">Videos</button><button class="tab" onclick="setSearchMode('local',this)">My app</button></div>
+  <div id="searchResults" class="searchResults"><div class="resultCard"><b>Welcome to Visual World Search</b><p>Type a topic above and choose Web, Images, Videos or My app.</p></div></div>
+  <div class="featureNote">VISUAL WORLD is designed as its own independent platform. Internal search and discovery features are planned; global search and video hosting still need to be built.</div>
+</section>
+<nav class="mobile"><button class="ib" onclick="showPage('feed')">⌂</button><button class="ib" onclick="document.getElementById('search').focus()">⌕</button><button class="ib" onclick="openCreate()">＋</button><button class="ib" onclick="showPage('notifications')">♧</button><button class="ib" onclick="showPage('profile')">◉</button></nav>
+
+<div class="modal" id="createModal"><div class="dialog"><button class="close" onclick="closeModal('createModal')">×</button><h3>Create a post</h3><label>Caption</label><textarea id="caption" rows="3" placeholder="Write something about your moment..."></textarea><label>Photo or video (optional)</label><input id="mediaFile" type="file" accept="image/*,video/*"><label>Location (optional)</label><input id="place" placeholder="Add a location"><button class="primary" onclick="publish()">Share post</button><p class="fine">Without Supabase sign-in, posts and media are saved on this device only. Online sharing will be enabled after Supabase setup.</p></div></div>
+<div class="modal" id="aiModal"><div class="dialog"><button class="close" onclick="closeModal('aiModal')">×</button><h3>✦ VISUAL AI STUDIO</h3><p style="font-size:12px;color:var(--muted)">Free offline creative helper. Choose a tool:</p><div class="tabs"><button class="tab active" onclick="setAITool('caption',this)">Caption</button><button class="tab" onclick="setAITool('bio',this)">Bio</button><button class="tab" onclick="setAITool('hashtags',this)">Hashtags</button><button class="tab" onclick="setAITool('idea',this)">Post ideas</button></div><textarea id="aiPrompt" rows="3" placeholder="Tell me your photo or topic..."></textarea><button class="primary" onclick="runAI()">Generate idea</button><div id="aiOutput" style="white-space:pre-wrap;background:#f7f2fb;border-radius:10px;padding:12px;margin-top:12px;font-size:13px;min-height:60px">Your suggestion will appear here.</div><button class="secondary" style="margin-top:10px" onclick="copyAI()">Copy result</button><p class="fine" style="margin-top:12px">Important: this is a rule-based offline helper, not a connected generative AI model. Real AI image/video generation needs an AI model/service, which may have usage limits or hosting requirements.</p></div></div>
+<div class="modal" id="profileModal"><div class="dialog"><button class="close" onclick="closeModal('profileModal')">×</button><h3>Edit profile</h3><label>Display name</label><input id="editName" value="maha.visuals"><label>Bio</label><textarea id="editBio" rows="3">Dream • Create • Inspire 🌍</textarea><label>Profile photo</label><input id="avatarFile" type="file" accept="image/*"><button class="primary" onclick="saveProfile()">Save profile</button></div></div>
+<div class="modal" id="backendModal"><div class="dialog">
+<button class="close" onclick="closeModal('backendModal')">×</button>
+<h3>Connect VISUAL WORLD backend</h3>
+<p class="muted">Connect a Supabase project to enable real online email sign-up and sign-in.</p>
+<label>Supabase Project URL</label><input id="sbUrl" placeholder="https://your-project.supabase.co">
+<label>Supabase anon / publishable key</label><textarea id="sbKey" rows="3" placeholder="Paste the anon or publishable key"></textarea>
+<button class="primary" style="width:100%" onclick="saveBackendConfig()">Save connection</button>
+<div class="authFormNote">Only use the public anon/publishable key. Never paste a service_role or secret key. Run the VISUAL WORLD media migration SQL in Supabase SQL Editor to enable photo/video uploads.</div>
+</div></div>
+<div class="modal" id="authModal"><div class="dialog">
+<button class="close" onclick="closeModal('authModal')">×</button>
+<h3 id="authTitle">Create your free account</h3>
+<p class="muted">Create an online account when Supabase is connected.</p>
+<div class="tabs"><button class="tab active" id="signupTab" onclick="setAuthMode('signup')">Sign up</button><button class="tab" id="loginTab" onclick="setAuthMode('login')">Sign in</button></div>
+<label>Your name</label><input id="authName" placeholder="Enter your display name">
+<label>Email</label><input id="authEmail" type="email" placeholder="you@example.com">
+<label>Password</label><input id="authPassword" type="password" placeholder="At least 6 characters">
+<button class="primary" style="width:100%" id="authSubmit" onclick="submitDemoAuth()">Create demo account</button>
+<button class="secondary" style="width:100%;margin-top:9px" id="forgotPasswordBtn" onclick="sendPasswordReset()">Forgot password?</button>
+<div class="authFormNote">With Supabase connected, sign-up/sign-in uses Supabase Auth. Choose “Forgot password?” to receive a password reset email. Without Supabase, this remains a local demo. Do not reuse a sensitive password while testing.</div>
+</div></div>
+<div id="toast"></div>
+<script>
+let aiTool='caption',myPosts=0,profilePhoto='',authMode='signup',supabaseClient=null,currentUser=null;
+const SUPABASE_CDN='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+function openBackendSetup(){
+  let cfg={};try{cfg=JSON.parse(localStorage.getItem('vw_supabase_config')||'{}')}catch(e){}
+  let draft={};try{draft=JSON.parse(localStorage.getItem('vw_supabase_draft')||'{}')}catch(e){}
+  document.getElementById('sbUrl').value=cfg.url||draft.url||'';
+  document.getElementById('sbKey').value=cfg.key||draft.key||'';
+  document.getElementById('backendModal').classList.add('show');
+}
+// Save each field as it is typed, so switching tabs or a page reload
+// does not erase the unfinished backend setup on this same browser.
+function saveBackendDraft(){
+  try{
+    localStorage.setItem('vw_supabase_draft',JSON.stringify({
+      url:document.getElementById('sbUrl').value,
+      key:document.getElementById('sbKey').value
+    }));
+  }catch(e){}
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const u=document.getElementById('sbUrl'),k=document.getElementById('sbKey');
+  if(u)u.addEventListener('input',saveBackendDraft);
+  if(k)k.addEventListener('input',saveBackendDraft);
+});
+async function saveBackendConfig(){
+  const url=document.getElementById('sbUrl').value.trim().replace(/\/$/,'');
+  const key=document.getElementById('sbKey').value.trim();
+  if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url)){toast('Enter your Supabase project URL');return}
+  if(key.length<20){toast('Paste the public anon / publishable key');return}
+  localStorage.setItem('vw_supabase_config',JSON.stringify({url,key}));
+  localStorage.removeItem('vw_supabase_draft');
+  const ok=await initSupabase();
+  if(ok){document.getElementById('authStatus').textContent='Backend connected • Supabase';toast('Supabase connection configured')}
+  else toast('Could not connect. Check URL, key and internet.');
+  closeModal('backendModal');
+}
+async function initSupabase(){
+  let cfg;try{cfg=JSON.parse(localStorage.getItem('vw_supabase_config')||'null')}catch(e){cfg=null}
+  if(!cfg)return false;
+  if(!window.supabase){
+    try{await new Promise((resolve,reject)=>{let sc=document.createElement('script');sc.src=SUPABASE_CDN;sc.onload=resolve;sc.onerror=reject;document.head.appendChild(sc)})}catch(e){return false}
+  }
+  try{
+    supabaseClient=window.supabase.createClient(cfg.url,cfg.key);
+    const {data:{session}}=await supabaseClient.auth.getSession();
+    if(session){const u=session.user;currentUser=u;applyDemoAccount({name:u.user_metadata?.display_name||u.email?.split('@')[0]||'VISUAL WORLD user',email:u.email||''});document.getElementById('authStatus').textContent='Signed in online • '+(u.email||'');await loadOnlinePosts()}
+    else {currentUser=null;document.getElementById('authStatus').textContent='Supabase connected • Not signed in'}
+    updateAuthControls();
+    return true;
+  }catch(e){return false}
+}
+async function sendPasswordReset(){
+  const email=document.getElementById('authEmail').value.trim().toLowerCase();
+  if(!/^\S+@\S+\.\S+$/.test(email)){toast('Enter your account email first');document.getElementById('authEmail').focus();return}
+  if(!supabaseClient){const ok=await initSupabase();if(!ok||!supabaseClient){toast('Supabase is not connected. Check your internet and backend settings.');return}}
+  try{
+    const {error}=await supabaseClient.auth.resetPasswordForEmail(email);
+    if(error){toast(error.message);return}
+    toast('Password reset email sent. Check your inbox and spam folder.');
+  }catch(e){toast(e?.message||'Could not send reset email. Please try again.')}
+}
+async function submitDemoAuth(){
+  const email=document.getElementById('authEmail').value.trim().toLowerCase();
+  const password=document.getElementById('authPassword').value;
+  const name=document.getElementById('authName').value.trim();
+  if(!/^\S+@\S+\.\S+$/.test(email)){toast('Enter a valid email address');return}
+  if(password.length<6){toast('Password must be at least 6 characters');return}
+  if(!supabaseClient)await initSupabase();
+  if(supabaseClient){
+    let result;
+    if(authMode==='signup'){
+      if(!name){toast('Enter your display name');return}
+      result=await supabaseClient.auth.signUp({email,password,options:{data:{display_name:name}}});
+    }else result=await supabaseClient.auth.signInWithPassword({email,password});
+    if(result.error){toast(result.error.message);return}
+    if(authMode==='signup'&&!result.data.session){toast('Check your email to confirm your account, then sign in.');closeModal('authModal');return}
+    const user=result.data.user;
+    currentUser=result.data.session?.user||null;
+    if(user)applyDemoAccount({name:user.user_metadata?.display_name||name||email.split('@')[0],email});
+    document.getElementById('authStatus').textContent='Signed in online • '+email;
+    updateAuthControls();
+    document.getElementById('authPassword').value='';
+    closeModal('authModal');toast(authMode==='signup'?'Online account created':'Signed in online');if(currentUser)await loadOnlinePosts();return;
+  }
+  let account;try{account=JSON.parse(localStorage.getItem('vw_demo_account')||'null')}catch(e){account=null}
+  if(authMode==='signup'){
+    if(!name){toast('Enter your display name');return}
+    const data={name,email};localStorage.setItem('vw_demo_account',JSON.stringify(data));applyDemoAccount(data);toast('Local demo profile created');
+  }else{
+    if(!account||account.email!==email){toast('No local demo profile found. Connect Supabase for real accounts.');return}
+    applyDemoAccount(account);toast('Welcome back to this device');
+  }
+  document.getElementById('authPassword').value='';closeModal('authModal');
+}
+function openAuth(mode){setAuthMode(mode);document.getElementById('authModal').classList.add('show')}
+function setAuthMode(mode){
+  authMode=mode;
+  document.getElementById('authTitle').textContent=mode==='signup'?'Create your VISUAL WORLD account':'Sign in to VISUAL WORLD';
+  document.getElementById('authSubmit').textContent=mode==='signup'?'Create account':'Sign in';
+  document.getElementById('signupTab').classList.toggle('active',mode==='signup');
+  document.getElementById('loginTab').classList.toggle('active',mode==='login');
+  document.getElementById('authName').style.display=mode==='signup'?'block':'none';
+}
+function applyDemoAccount(data){
+  document.getElementById('authStatus').textContent='Signed in locally as '+data.email+' • Demo only';
+  document.getElementById('profileName').textContent=data.name;
+  document.getElementById('editName').value=data.name;
+  document.querySelector('.sidebar .profile b').textContent=data.name;
+  document.getElementById('headAvatar').textContent=(data.name[0]||'V').toUpperCase();
+  document.getElementById('profileAvatar').textContent=(data.name[0]||'V').toUpperCase();
+}
+function updateAuthControls(){const b=document.getElementById('signOutBtn');if(b)b.style.display='inline-flex';}
+async function signOutAccount(){
+  if(!supabaseClient){const ok=await initSupabase();if(!ok){toast('Connect your Supabase account first');openBackendSetup();return}}
+  if(!currentUser){openAuth('login');toast('You are not signed in yet. Please sign in.');return}
+  const {error}=await supabaseClient.auth.signOut();
+  if(error){toast('Sign out failed: '+error.message);return}
+  currentUser=null;
+  document.getElementById('authStatus').textContent='Supabase connected • Not signed in';
+  document.getElementById('profileName').textContent='maha.visuals';
+  document.getElementById('profileBio').textContent='Dream • Create • Inspire 🌍';
+  document.getElementById('feed').innerHTML='';
+  document.getElementById('myPosts').innerHTML='<div class="empty">Sign in to see your posts.</div>';
+  document.getElementById('postCount').textContent='0';
+  updateAuthControls();
+  toast('Signed out successfully');
+}
+function toast(s){let t=document.getElementById('toast');t.textContent=s;t.style.display='block';clearTimeout(window.tm);window.tm=setTimeout(()=>t.style.display='none',2200)}
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+function openCreate(){document.getElementById('createModal').classList.add('show')}
+function openAI(){document.getElementById('aiModal').classList.add('show')}
+function showPage(p){['feedPage','profilePage','notificationsPage'].forEach(id=>document.getElementById(id).classList.add('hidden'));document.getElementById(p==='feed'?'feedPage':p==='profile'?'profilePage':'notificationsPage').classList.remove('hidden');if(p==='notifications')vwRenderNotifications();window.scrollTo(0,0)}
+
+// VISUAL WORLD local-first mode: posts and media remain on this device until Supabase is ready.
+const VW_LOCAL_KEY='vw_local_posts_v1', VW_SOCIAL_KEY='vw_local_social_v1';
+function vwRead(key,fallback){try{return JSON.parse(localStorage.getItem(key)||'null')??fallback}catch(e){return fallback}}
+function vwWrite(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true}catch(e){toast('Device storage is full. Remove some large local posts.');return false}}
+function vwDB(){
+ return new Promise((resolve,reject)=>{
+  const req=indexedDB.open('visual-world-local',1);
+  req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('media'))db.createObjectStore('media')};
+  req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);
+ });
+}
+async function vwSaveBlob(id,blob){
+ const db=await vwDB();return new Promise((resolve,reject)=>{
+  const tx=db.transaction('media','readwrite');tx.objectStore('media').put(blob,id);
+  tx.oncomplete=()=>resolve(true);tx.onerror=()=>reject(tx.error);
+ });
+}
+async function vwGetBlob(id){
+ const db=await vwDB();return new Promise((resolve,reject)=>{
+  const req=db.transaction('media','readonly').objectStore('media').get(id);
+  req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error);
+ });
+}
+async function vwDeleteBlob(id){
+ const db=await vwDB();return new Promise(resolve=>{
+  const tx=db.transaction('media','readwrite');tx.objectStore('media').delete(id);tx.oncomplete=()=>resolve();
+ });
+}
+function vwLocalName(){return document.getElementById('profileName')?.textContent||'VISUAL WORLD user'}
+function vwSocial(){return vwRead(VW_SOCIAL_KEY,{likes:[],saves:[],comments:{},follows:[]})}
+function vwNotify(message){const items=vwRead('vw_local_notifications',[]);items.unshift({id:Date.now()+'-'+Math.random(),message,at:new Date().toISOString(),read:false});vwWrite('vw_local_notifications',items.slice(0,100));vwRenderNotifications()}
+function vwRenderNotifications(){
+ const host=document.getElementById('notificationsPage');if(!host)return;
+ const items=vwRead('vw_local_notifications',[]);
+ const list=host.querySelector('.notificationList')||document.createElement('div');list.className='notificationList';list.innerHTML='';
+ if(!items.length){const empty=document.createElement('div');empty.className='resultCard';empty.textContent='No notifications yet. Your local activity will appear here.';list.append(empty)}
+ items.forEach(item=>{const card=document.createElement('div');card.className='resultCard';const msg=document.createElement('b');msg.textContent=item.message;const time=document.createElement('p');time.textContent=new Date(item.at).toLocaleString();card.append(msg,time);list.append(card)});
+ const old=host.querySelector('.notificationList');if(old)old.replaceWith(list);else host.append(list);
+}
+function vwRenderStories(){
+ const host=document.getElementById('stories');if(!host)return;
+ const items=vwRead('vw_local_stories',[]);
+ for(const item of items){if(host.querySelector('[data-story-id="'+item.id+'"]'))continue;
+  const chip=document.createElement('div');chip.className='story';chip.dataset.storyId=item.id;
+  const ring=document.createElement('div');ring.className='ring';const span=document.createElement('span');span.textContent='✓';ring.append(span);
+  const label=document.createElement('div');label.textContent='My story';chip.append(ring,label);
+  chip.onclick=async()=>{const blob=await vwGetBlob(item.id);if(!blob)return;const url=URL.createObjectURL(blob);const w=window.open('','_blank');if(w){const el=blob.type.startsWith('video/')?w.document.createElement('video'):w.document.createElement('img');el.src=url;if(el.tagName==='VIDEO'){el.controls=true;el.autoplay=true}el.style.maxWidth='100%';w.document.body.append(el)}};
+  host.append(chip);
+ }
+}
+function vwSaveSocial(s){vwWrite(VW_SOCIAL_KEY,s)}
+async function vwRenderLocalPosts(){
+ const rows=vwRead(VW_LOCAL_KEY,[]);const feed=document.getElementById('feed');if(!feed)return;
+ // Keep sample posts, then add this device's posts at the top.
+ for(const row of rows.slice().reverse()){
+  let url=null;if(row.mediaId){try{const blob=await vwGetBlob(row.mediaId);if(blob)url=URL.createObjectURL(blob)}catch(e){}}
+  const el=renderOnlinePost({...row,media_url:url,profiles:{display_name:row.author||vwLocalName()}});
+  el.dataset.localPost='1';feed.prepend(el);
+  const social=vwSocial(),liked=social.likes.includes(row.id),saved=social.saves.includes(row.id);
+  const likeBtn=el.querySelector('.tools button'),saveBtn=el.querySelector('.tools .save');
+  if(likeBtn){likeBtn.dataset.liked=liked?'1':'0';likeBtn.textContent=liked?'♥':'♡'}
+  if(saveBtn){saveBtn.dataset.saved=saved?'1':'0';saveBtn.textContent=saved?'▣':'♧'}
+  const list=el.querySelector('.commentlist');(social.comments[row.id]||[]).forEach(c=>{const line=document.createElement('p');line.textContent=(c.author||'User')+': '+c.body;list.append(line)});
+  const mine=document.getElementById('myPosts');if(mine)mine.prepend(el.cloneNode(true));
+ }
+ const count=rows.filter(x=>x.author===vwLocalName()).length;
+ const pc=document.getElementById('postCount');if(pc)pc.textContent=String(count);
+}
+async function vwCreateLocalPost(caption,file,place){
+ const id='local-'+Date.now()+'-'+Math.random().toString(36).slice(2,7);
+ let mediaId=null,media_type=null,media_url=null;
+ if(file){
+  mediaId=id;
+  await vwSaveBlob(mediaId,file);
+  media_type=file.type.startsWith('video/')?'video':'image';
+  media_url=URL.createObjectURL(file);
+ }
+ const row={id,user_id:'local-user',caption,media_type,mediaId,place,author:vwLocalName(),created_at:new Date().toISOString()};
+ const rows=vwRead(VW_LOCAL_KEY,[]);rows.push(row);
+ if(!vwWrite(VW_LOCAL_KEY,rows)){if(mediaId)await vwDeleteBlob(mediaId);return}
+ const el=renderOnlinePost({...row,media_url,profiles:{display_name:row.author}});
+ el.dataset.localPost='1';document.getElementById('feed').prepend(el);
+ const mine=document.getElementById('myPosts');if(mine)mine.prepend(el.cloneNode(true));
+ const pc=document.getElementById('postCount');if(pc)pc.textContent=String(rows.filter(x=>x.author===vwLocalName()).length);
+}
+
+// Online social actions: likes, comments and saved posts are stored in Supabase.
+async function togglePostLike(button){
+  const post=button.closest('.post'), postId=post?.dataset.postId;
+  if(post?.dataset.localPost==='1'){
+    const s=vwSocial(),was= s.likes.includes(postId);
+    s.likes=was?s.likes.filter(x=>x!==postId):[...s.likes,postId];vwSaveSocial(s);if(!was)vwNotify('You liked a post');
+    button.dataset.liked=was?'0':'1';button.textContent=was?'♡':'♥';
+    const c=post.querySelector('.likes');c.dataset.count=String(Math.max(0,Number(c.dataset.count||0)+(was?-1:1)));c.textContent=c.dataset.count+' likes';return;
+  }
+  if(!supabaseClient || !currentUser){toast('Please sign in to like online posts');return}
+  if(!postId)return;
+  button.disabled=true;
+  const wasLiked=button.dataset.liked==='1';
+  let result;
+  if(wasLiked) result=await supabaseClient.from('post_likes').delete().eq('post_id',postId).eq('user_id',currentUser.id);
+  else result=await supabaseClient.from('post_likes').insert({post_id:postId,user_id:currentUser.id});
+  button.disabled=false;
+  if(result.error){toast('Like failed: '+result.error.message);return}
+  button.dataset.liked=wasLiked?'0':'1';button.textContent=wasLiked?'♡':'♥';button.style.color=wasLiked?'':'#ed4d83';
+  const count=post.querySelector('.likes');let n=Number(count.dataset.count||0)+(wasLiked?-1:1);count.dataset.count=String(Math.max(0,n));count.textContent=Math.max(0,n)+' likes';
+}
+async function toggleSavedPost(button){
+  const post=button.closest('.post'),postId=post?.dataset.postId;
+  if(post?.dataset.localPost==='1'){
+    const s=vwSocial(),was=s.saves.includes(postId);s.saves=was?s.saves.filter(x=>x!==postId):[...s.saves,postId];vwSaveSocial(s);if(!was)vwNotify('You saved a post');
+    button.dataset.saved=was?'0':'1';button.textContent=was?'♧':'▣';toast(was?'Removed from saved':'Saved on this device');return;
+  }
+  if(!supabaseClient || !currentUser){toast('Please sign in to save online posts');return}
+  if(!postId)return;
+  button.disabled=true;const wasSaved=button.dataset.saved==='1';
+  const result=wasSaved
+    ? await supabaseClient.from('saved_posts').delete().eq('post_id',postId).eq('user_id',currentUser.id)
+    : await supabaseClient.from('saved_posts').insert({post_id:postId,user_id:currentUser.id});
+  button.disabled=false;
+  if(result.error){toast('Save failed: '+result.error.message);return}
+  button.dataset.saved=wasSaved?'0':'1';button.textContent=wasSaved?'♧':'▣';toast(wasSaved?'Removed from saved':'Post saved to your account');
+}
+async function submitPostComment(input){
+  const value=input.value.trim();if(!value)return;
+  if(!supabaseClient || !currentUser){toast('Please sign in to comment');return}
+  const post=input.closest('.post'),postId=post?.dataset.postId;if(!postId)return;
+  const button=input.nextElementSibling;button.disabled=true;
+  const {data,error}=await supabaseClient.from('post_comments').insert({post_id:postId,user_id:currentUser.id,body:value}).select('id,body,created_at').single();
+  button.disabled=false;
+  if(error){toast('Comment failed: '+error.message);return}
+  const list=post.querySelector('.commentlist'),d=document.createElement('div');d.textContent='You: '+data.body;list.append(d);input.value='';
+  const count=post.querySelector('.comments');if(count)count.textContent='Comments';
+}
+function like(b){if(b.closest('.post')?.dataset.postId){togglePostLike(b);return}toast('Sample post only')}
+function save(b){if(b.closest('.post')?.dataset.postId){toggleSavedPost(b);return}toast('Sample post only')}
+function follow(b){const s=vwSocial(),who=b.dataset.user||b.textContent.trim()||'VISUAL WORLD creator';const on=s.follows.includes(who);s.follows=on?s.follows.filter(x=>x!==who):[...s.follows,who];vwSaveSocial(s);if(!on)vwNotify('You followed '+who);b.textContent=on?'Follow':'Following';toast(on?'Unfollowed':'Following on this device')}
+function focusComment(b){b.closest('.body').querySelector('input')?.focus()}
+function addComment(i){
+ const post=i.closest('.post'),id=post?.dataset.postId,value=i.value.trim();if(!value)return;
+ if(post?.dataset.localPost==='1'){const s=vwSocial();s.comments[id]=s.comments[id]||[];s.comments[id].push({body:value,author:vwLocalName(),created_at:new Date().toISOString()});vwSaveSocial(s);vwNotify('You commented on a post');const list=post.querySelector('.commentlist');const line=document.createElement('p');line.textContent=vwLocalName()+': '+value;list.append(line);i.value='';return}
+ if(id){submitPostComment(i);return}toast('Sample post only');
+}
+async function loadPostSocialState(posts){
+  if(!supabaseClient||!posts?.length)return;
+  const ids=posts.map(x=>x.id);
+  const [likesRes,commentsRes,savesRes]=await Promise.all([
+    supabaseClient.from('post_likes').select('post_id,user_id').in('post_id',ids),
+    supabaseClient.from('post_comments').select('post_id,body,user_id,created_at').in('post_id',ids).order('created_at',{ascending:true}),
+    currentUser?supabaseClient.from('saved_posts').select('post_id').eq('user_id',currentUser.id).in('post_id',ids):Promise.resolve({data:[],error:null})
+  ]);
+  if(likesRes.error||commentsRes.error||savesRes.error){console.warn('Social state load',likesRes.error||commentsRes.error||savesRes.error);return}
+  const liked=new Set((likesRes.data||[]).filter(x=>x.user_id===currentUser?.id).map(x=>x.post_id));
+  const saved=new Set((savesRes.data||[]).map(x=>x.post_id));
+  posts.forEach(row=>{
+    const el=document.querySelector('.post[data-post-id="'+row.id+'"]');if(!el)return;
+    const likes=(likesRes.data||[]).filter(x=>x.post_id===row.id).length;
+    const likeBtn=el.querySelector('.tools button');likeBtn.dataset.liked=liked.has(row.id)?'1':'0';likeBtn.textContent=liked.has(row.id)?'♥':'♡';likeBtn.style.color=liked.has(row.id)?'#ed4d83':'';
+    const likeCount=el.querySelector('.likes');likeCount.dataset.count=String(likes);likeCount.textContent=likes+' likes';
+    const saveBtn=el.querySelector('.tools .save');saveBtn.dataset.saved=saved.has(row.id)?'1':'0';saveBtn.textContent=saved.has(row.id)?'▣':'♧';
+    const list=el.querySelector('.commentlist');(commentsRes.data||[]).filter(c=>c.post_id===row.id).forEach(c=>{const d=document.createElement('div');d.textContent=(c.user_id===currentUser?.id?'You':'User')+': '+c.body;list.append(d)});
+  });
+}
+function sharePost(){if(navigator.clipboard){navigator.clipboard.writeText(location.href).then(()=>toast('Page link copied')).catch(()=>toast('Share this page from your browser menu'))}else toast('Share this page from your browser menu')}
+function renderOnlinePost(row){
+  const p=document.createElement('article');p.className='post';p.dataset.postId=row.id;
+  const h=document.createElement('div');h.className='posthead';
+  const name=row.profiles?.display_name||'VISUAL WORLD user';
+  h.innerHTML='<div class="avatar"></div><div><b></b><small></small></div><span class="dots">···</span>';
+  h.querySelector('b').textContent=name;h.querySelector('.avatar').textContent=(name[0]||'V').toUpperCase();
+  h.querySelector('small').textContent=new Date(row.created_at).toLocaleString();p.append(h);
+  if(row.media_url && row.media_type==='video'){
+    const media=document.createElement('video');media.className='postmedia';media.src=row.media_url;media.controls=true;media.playsInline=true;p.append(media);
+  }else if(row.media_url && row.media_type==='image'){
+    const media=document.createElement('img');media.className='postmedia';media.src=row.media_url;media.alt='VISUAL WORLD post';media.loading='lazy';p.append(media);
+  }else{
+    const art=document.createElement('div');art.className='art a3';art.innerHTML='<div><p>VISUAL WORLD</p><h2>Your story<br>starts here.</h2></div>';p.append(art);
+  }
+  const body=document.createElement('div');body.className='body';
+  body.innerHTML='<div class="tools"><button aria-label="Like" onclick="like(this)">♡</button><button aria-label="Comment" onclick="focusComment(this)">▢</button><button onclick="sharePost()">➤</button><button class="save" aria-label="Save post" onclick="save(this)">♧</button></div><div class="likes" data-count="0">0 likes</div><div class="caption"></div><div class="commentlist"></div><div class="comment"><input placeholder="Add a comment..." onkeydown="if(event.key===\'Enter\')addComment(this)"><button onclick="addComment(this.previousElementSibling)">Post</button></div>';
+  body.querySelector('.caption').textContent=name+' '+(row.caption||'');p.append(body);return p;
+}
+async function loadOnlinePosts(){
+  if(!supabaseClient)return;
+  const {data,error}=await supabaseClient.from('posts').select('id,user_id,caption,media_url,media_type,created_at').order('created_at',{ascending:false}).limit(50);
+  if(error){console.error('Load posts:',error);toast('Could not load posts: '+error.message);return}
+  const feed=document.getElementById('feed');feed.innerHTML='';
+  (data||[]).forEach(row=>feed.append(renderOnlinePost(row)));
+  await loadPostSocialState(data||[]);
+  const mine=(data||[]).filter(row=>currentUser&&row.user_id===currentUser.id);
+  myPosts=mine.length;document.getElementById('postCount').textContent=myPosts;
+  const my=document.getElementById('myPosts');if(my){my.innerHTML='';mine.forEach(row=>my.append(renderOnlinePost(row)))}
+}
+async function publish(){
+ const cap=document.getElementById('caption').value.trim(),file=document.getElementById('mediaFile').files[0],place=document.getElementById('place').value.trim();
+ if(!cap&&!file){toast('Write a caption or choose a photo/video');return}
+ if(file){
+  if(!(file.type.startsWith('image/')||file.type.startsWith('video/'))){toast('Choose an image or video file');return}
+  if(file.size>50*1024*1024){toast('Choose a file under 50 MB');return}
+ }
+ const btn=document.querySelector('#createModal .primary');btn.disabled=true;btn.textContent=file?'Saving media...':'Sharing...';
+ try{
+  if(supabaseClient&&currentUser){
+   let media_url=null,media_type=null,uploadedPath=null;
+   if(file){
+    const safeName=(file.name||'upload').replace(/[^a-zA-Z0-9._-]/g,'_').slice(-70);
+    uploadedPath=currentUser.id+'/'+Date.now()+'_'+safeName;
+    const {data:up,error:ue}=await supabaseClient.storage.from('vw-media').upload(uploadedPath,file,{cacheControl:'3600',upsert:false,contentType:file.type||undefined});
+    if(ue)throw ue;
+    media_url=supabaseClient.storage.from('vw-media').getPublicUrl(up.path).data.publicUrl;media_type=file.type.startsWith('video/')?'video':'image';
+   }
+   const {data,error}=await supabaseClient.from('posts').insert({user_id:currentUser.id,caption:cap,media_url,media_type}).select('id,user_id,caption,media_url,media_type,created_at').single();
+   if(error){if(uploadedPath)await supabaseClient.storage.from('vw-media').remove([uploadedPath]);throw error}
+   document.getElementById('feed').prepend(renderOnlinePost(data));myPosts++;document.getElementById('postCount').textContent=myPosts;
+  }else{
+   await vwCreateLocalPost(cap,file,place);
+   toast('Saved on this device. Online sync can be added after Supabase login is fixed.');
+  }
+  closeModal('createModal');document.getElementById('caption').value='';document.getElementById('mediaFile').value='';document.getElementById('place').value='';
+ }catch(error){console.error(error);toast('Could not share: '+(error.message||'Please try again'))}
+ finally{btn.disabled=false;btn.textContent='Share post'}
+}
+
+function setAITool(tool,b){aiTool=tool;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('aiOutput').textContent='Your suggestion will appear here.'}
+function runAI(){let q=document.getElementById('aiPrompt').value.trim(),o=document.getElementById('aiOutput');if(!q){o.textContent='Please enter a topic first.';return}let s=q.toLowerCase(),r;
+if(aiTool==='caption')r=['A little moment, a beautiful memory. ✨','My world, my story, my little happiness. 💜','Finding beauty in the ordinary. 🌍'][q.length%3];
+if(aiTool==='bio')r=['Dream • Create • Inspire ✨','Sharing moments and making memories 🌍','Creating my own colourful world 💜'][q.length%3];
+if(aiTool==='hashtags')r='#VisualWorld #MyStory #CreativeLife #GoodVibes #ExploreMore #Moments';
+if(aiTool==='idea')r=['Share a photo of a place that makes you peaceful.','Post three things that made you smile today.','Introduce yourself with one fun fact and a favourite photo.'][q.length%3];
+o.textContent=r+'\\n\\nTopic: '+q+'\\n\\nEdit this suggestion to make it your own.'}
+function copyAI(){let t=document.getElementById('aiOutput').textContent;if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>toast('Copied')).catch(()=>toast('Select and copy the text'));else toast('Select and copy the text')}
+function editProfile(){document.getElementById('editName').value=document.getElementById('profileName').textContent;document.getElementById('editBio').value=document.getElementById('profileBio').textContent;document.getElementById('profileModal').classList.add('show')}
+async function saveProfile(){let n=document.getElementById('editName').value.trim()||'my.visuals',bio=document.getElementById('editBio').value;document.getElementById('profileName').textContent=n;document.getElementById('profileBio').textContent=bio;document.querySelector('.sidebar .profile b').textContent=n;localStorage.setItem('vw_profile',JSON.stringify({name:n,bio}));let f=document.getElementById('avatarFile').files[0];if(f){try{await vwSaveBlob('vw-profile-avatar',f);const u=URL.createObjectURL(f);document.getElementById('profileAvatar').innerHTML='<img src="'+u+'">';document.getElementById('headAvatar').innerHTML='<img src="'+u+'">'}catch(e){toast('Could not save profile photo on this device')}}closeModal('profileModal');toast('Profile saved on this device')}
+document.getElementById('search').addEventListener('input',e=>{let q=e.target.value.toLowerCase();showPage('feed');document.querySelectorAll('#feed .post').forEach(p=>p.style.display=p.innerText.toLowerCase().includes(q)?'':'none')});
+
+try{const savedDemo=JSON.parse(localStorage.getItem('vw_demo_account')||'null');if(savedDemo)applyDemoAccount(savedDemo)}catch(e){}
+initSupabase();
+let searchMode='web';
+function switchMainPage(page,button){
+  ['feedPage','profilePage','notificationsPage','videosPage','searchPage'].forEach(id=>document.getElementById(id)?.classList.add('hidden'));
+  if(page==='feed')document.getElementById('feedPage').classList.remove('hidden');
+  if(page==='videos')document.getElementById('videosPage').classList.remove('hidden');
+  if(page==='search')document.getElementById('searchPage').classList.remove('hidden');
+  if(page==='notifications'){document.getElementById('notificationsPage').classList.remove('hidden');vwRenderNotifications();}
+  if(page==='ai'){openAI();}
+  document.querySelectorAll('.navitem').forEach(x=>x.classList.remove('active'));
+  if(button)button.classList.add('active');
+  window.scrollTo(0,0);
+}
+function setSearchMode(mode,button){
+  searchMode=mode;
+  document.querySelectorAll('#searchPage .tab').forEach(x=>x.classList.remove('active'));
+  button.classList.add('active');
+}
+function runWorldSearch(){
+  let q=document.getElementById('worldSearch').value.trim();
+  if(!q){toast('Type something to search');return;}
+  let out=document.getElementById('searchResults');
+  if(searchMode==='local'){
+    let matches=[...document.querySelectorAll('#feed .post')].filter(p=>p.innerText.toLowerCase().includes(q.toLowerCase()));
+    out.innerHTML='';
+    if(!matches.length){out.innerHTML='<div class="resultCard">No matching posts found in this demo.</div>';return;}
+    matches.forEach(p=>{let d=document.createElement('div');d.className='resultCard';d.textContent=p.innerText.slice(0,180);out.append(d);});
+    return;
+  }
+  let base=searchMode==='images'?'https://www.google.com/search?tbm=isch&q=':searchMode==='videos'?'https://www.youtube.com/results?search_query=':'https://www.google.com/search?q=';
+  out.innerHTML='';
+  let card=document.createElement('div');card.className='resultCard';
+  let a=document.createElement('a');a.href=base+encodeURIComponent(q);a.target='_blank';a.rel='noopener';a.textContent='Open '+(searchMode==='images'?'Google Images':searchMode==='videos'?'YouTube Videos':'Google Search')+' results ↗';
+  let p=document.createElement('p');p.textContent='Search for: '+q+' — results open on the external service.';
+  card.append(a,p);out.append(card);
+}
+function videoLike(b){let on=b.dataset.on==='1';b.dataset.on=on?'0':'1';b.textContent=on?'♡ Like':'♥ Liked';}
+async function addDemoVideo(input){
+ let f=input.files[0];if(!f)return;
+ if(f.size>50*1024*1024){toast('Choose a video under 50 MB');input.value='';return}
+ const id='video-'+Date.now()+'-'+Math.random().toString(36).slice(2,6);
+ try{await vwSaveBlob(id,f);const url=URL.createObjectURL(f),card=document.createElement('article');card.className='videoCard';card.dataset.localVideo=id;
+  const v=document.createElement('video');v.src=url;v.controls=true;v.playsInline=true;
+  const info=document.createElement('div');info.className='videoInfo';const name=document.createElement('b');name.textContent=f.name;
+  const sub=document.createElement('span');sub.className='muted';sub.textContent='Saved on this device';
+  const actions=document.createElement('div');actions.className='videoActions';const like=document.createElement('button');like.textContent='♡ Like';like.onclick=()=>videoLike(like);
+  const del=document.createElement('button');del.textContent='Remove';del.onclick=async()=>{await vwDeleteBlob(id);card.remove();toast('Local video removed')};
+  actions.append(like,del);info.append(name,sub,actions);card.append(v,info);document.getElementById('videoGrid').prepend(card);
+  const saved=vwRead('vw_local_videos',[]);saved.push({id,name:f.name});vwWrite('vw_local_videos',saved);toast('Video saved on this device');
+ }catch(e){toast('Could not save this video on your device')}
+ input.value='';
+}
+async function vwRestoreVideos(){
+ const saved=vwRead('vw_local_videos',[]),grid=document.getElementById('videoGrid');
+ for(const item of saved){try{const blob=await vwGetBlob(item.id);if(!blob)continue;const url=URL.createObjectURL(blob),card=document.createElement('article');card.className='videoCard';card.dataset.localVideo=item.id;
+ const v=document.createElement('video');v.src=url;v.controls=true;v.playsInline=true;const info=document.createElement('div');info.className='videoInfo';
+ const name=document.createElement('b');name.textContent=item.name;const sub=document.createElement('span');sub.className='muted';sub.textContent='Saved on this device';
+ const actions=document.createElement('div');actions.className='videoActions';const del=document.createElement('button');del.textContent='Remove';del.onclick=async()=>{await vwDeleteBlob(item.id);vwWrite('vw_local_videos',vwRead('vw_local_videos',[]).filter(x=>x.id!==item.id));card.remove()};
+ actions.append(del);info.append(name,sub,actions);card.append(v,info);grid.append(card)}catch(e){}}
+}
+
+function openStory(){document.getElementById('storyFile')?.click()}
+async function addLocalStory(input){const f=input.files[0];if(!f)return;if(f.size>25*1024*1024){toast('Choose a story under 25 MB');input.value='';return}const id='story-'+Date.now();try{await vwSaveBlob(id,f);const items=vwRead('vw_local_stories',[]);items.unshift({id,name:f.name,at:new Date().toISOString()});vwWrite('vw_local_stories',items.slice(0,30));vwRenderStories();vwNotify('You added a story');toast('Story saved on this device')}catch(e){toast('Could not save story on this device')}input.value=''}
+
+// Keep account controls visible, then restore the online session.
+updateAuthControls();
+try{const prof=JSON.parse(localStorage.getItem('vw_profile')||'null');if(prof){document.getElementById('profileName').textContent=prof.name;document.getElementById('profileBio').textContent=prof.bio;document.querySelector('.sidebar .profile b').textContent=prof.name}}catch(e){}
+(async()=>{try{const avatar=await vwGetBlob('vw-profile-avatar');if(avatar){const u=URL.createObjectURL(avatar);document.getElementById('profileAvatar').innerHTML='<img src="'+u+'">';document.getElementById('headAvatar').innerHTML='<img src="'+u+'">'}}catch(e){}vwRenderStories();vwRenderNotifications();await vwRenderLocalPosts();await vwRestoreVideos();const ok=await initSupabase();if(ok&&currentUser)await loadOnlinePosts()})();
+</script></body></html>
