@@ -627,4 +627,10 @@ updateAuthControls();
 try{const prof=JSON.parse(localStorage.getItem('vw_profile')||'null');if(prof){document.getElementById('profileName').textContent=prof.name;document.getElementById('profileBio').textContent=prof.bio;document.querySelector('.sidebar .profile b').textContent=prof.name}}catch(e){}
 if(vwAuth){vwAuth.onAuthStateChanged(async user=>{currentUser=user||null;if(user){const displayName=user.displayName||user.email?.split('@')[0]||'VISUAL WORLD user';applyDemoAccount({name:displayName,email:user.email||''});document.getElementById('authStatus').textContent='Online • '+(user.email||'');updateAuthControls();await loadFirebasePosts()}else{document.getElementById('authStatus').textContent='Not signed in'}})}
 (async()=>{try{const avatar=await vwGetBlob('vw-profile-avatar');if(avatar){const u=URL.createObjectURL(avatar);document.getElementById('profileAvatar').innerHTML='<img src="'+u+'">';document.getElementById('headAvatar').innerHTML='<img src="'+u+'">'}}catch(e){}vwRenderStories();vwRenderNotifications();await vwRenderLocalPosts();await vwRestoreVideos();if(vwAuth?.currentUser){currentUser=vwAuth.currentUser;await loadFirebasePosts()}})();
-</script></body></html>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .then(() => console.log("VISUAL WORLD offline support ready"))
+      .catch((error) => console.error("Service Worker error:", error));
+  });
+}</script></body></html>
