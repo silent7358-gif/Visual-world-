@@ -1,5 +1,5 @@
 {
-  "name": "VISUAL WORLD",
+"name": "VISUAL WORLD",
   "short_name": "VISUAL WORLD",
   "start_url": "./",
   "scope": "./",
@@ -9,15 +9,15 @@
   "description": "Welcome to VISUAL WORLD",
   "icons": [
     {
-      "src": "./icons/vw-192.svg",
+      "src": "./icons/vw-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./icons/vw-512.svg",
+      "src": "./icons/vw-512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any"
     }
   ]
