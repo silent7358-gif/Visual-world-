@@ -221,7 +221,14 @@ try {
   if (window.firebase && !firebase.apps.length) firebase.initializeApp(firebaseConfig);
   if (window.firebase) { vwFirebaseApp=firebase.app(); vwAuth=firebase.auth(); vwDb=firebase.database(); vwFirebaseReady=true; }
 } catch (e) { console.error('Firebase init failed',e); }
-</script>
+window.addEventListener("load", function(){
+  const splash = document.getElementById("vwSplash");
+  if(!splash) return;
+  setTimeout(function(){
+    splash.classList.add("hide");
+    setTimeout(function(){ splash.remove(); },700);
+  },2500);
+});</script>
 <script>
 let aiTool='caption',myPosts=0,profilePhoto='',authMode='signup',supabaseClient=null,currentUser=null;
 const SUPABASE_CDN='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
