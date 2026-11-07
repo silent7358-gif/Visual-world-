@@ -445,25 +445,41 @@ async function vwCreateLocalPost(caption,file,place){
 
 // Online social actions: likes, comments and saved posts are stored in Supabase.
 async function togglePostLike(button){
-  const post=button.closest('.post'), postId=post?.dataset.postId;
+  const post=button.closest('.post');
+  const postId=post?.dataset.postId;
+  const user=vwAuth?.currentUser;
+
   if(post?.dataset.localPost==='1'){
-    const s=vwSocial(),was= s.likes.includes(postId);
-    s.likes=was?s.likes.filter(x=>x!==postId):[...s.likes,postId];vwSaveSocial(s);if(!was)vwNotify('You liked a post');
-    button.dataset.liked=was?'0':'1';button.textContent=was?'♡':'♥';
-    const c=post.querySelector('.likes');c.dataset.count=String(Math.max(0,Number(c.dataset.count||0)+(was?-1:1)));c.textContent=c.dataset.count+' likes';return;
+    const s=vwSocial(),was=s.likes.includes(postId);
+    s.likes=was?s.likes.filter(x=>x!==postId):[...s.likes,postId];
+    vwSaveSocial(s);
+    button.textContent=was?'♡':'♥';
+    return;
   }
-  if(!supabaseClient || !currentUser){toast('Please sign in to like online posts');return}
-  if(!postId)return;
+
+  if(!postId||!user||!vwDb){
+    toast('Please sign in to like posts');
+    return;
+  }
+
   button.disabled=true;
-  const wasLiked=button.dataset.liked==='1';
-  let result;
-  if(wasLiked) result=await supabaseClient.from('post_likes').delete().eq('post_id',postId).eq('user_id',currentUser.id);
-  else result=await supabaseClient.from('post_likes').insert({post_id:postId,user_id:currentUser.id});
+  try{
+    const ref=vwDb.ref('posts/'+postId+'/likes/'+user.uid);
+    await ref.transaction(value=>value?null:true);
+    const snap=await vwDb.ref('posts/'+postId+'/likes').once('value');
+    const likes=snap.val()||{};
+    const liked=!!likes[user.uid];
+    button.dataset.liked=liked?'1':'0';
+    button.textContent=liked?'♥':'♡';
+    const count=Object.keys(likes).length;
+    const label=post.querySelector('.likes');
+    label.dataset.count=count;
+    label.textContent=count+' likes';
+  }catch(e){
+    toast('Like failed: '+e.message);
+  }
   button.disabled=false;
-  if(result.error){toast('Like failed: '+result.error.message);return}
-  button.dataset.liked=wasLiked?'0':'1';button.textContent=wasLiked?'♡':'♥';button.style.color=wasLiked?'':'#ed4d83';
-  const count=post.querySelector('.likes');let n=Number(count.dataset.count||0)+(wasLiked?-1:1);count.dataset.count=String(Math.max(0,n));count.textContent=Math.max(0,n)+' likes';
-}
+      }
 async function toggleSavedPost(button){
   const post=button.closest('.post'),postId=post?.dataset.postId;
   if(post?.dataset.localPost==='1'){
