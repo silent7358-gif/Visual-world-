@@ -479,22 +479,55 @@ async function togglePostLike(button){
     toast('Like failed: '+e.message);
   }
   button.disabled=false;
-      }
-async function toggleSavedPost(button){
-  const post=button.closest('.post'),postId=post?.dataset.postId;
+      }async function toggleSavedPost(button){
+  const post=button.closest('.post');
+  const postId=post?.dataset.postId;
+  const user=vwAuth?.currentUser;
+
   if(post?.dataset.localPost==='1'){
-    const s=vwSocial(),was=s.saves.includes(postId);s.saves=was?s.saves.filter(x=>x!==postId):[...s.saves,postId];vwSaveSocial(s);if(!was)vwNotify('You saved a post');
-    button.dataset.saved=was?'0':'1';button.textContent=was?'♧':'▣';toast(was?'Removed from saved':'Saved on this device');return;
+    const s=vwSocial();
+    const was=s.saves.includes(postId);
+    s.saves=was
+      ? s.saves.filter(x=>x!==postId)
+      : [...s.saves,postId];
+
+    vwSaveSocial(s);
+    button.dataset.saved=was?'0':'1';
+    button.textContent=was?'♧':'▣';
+    toast(was?'Removed from saved':'Saved on this device');
+    return;
   }
-  if(!supabaseClient || !currentUser){toast('Please sign in to save online posts');return}
-  if(!postId)return;
-  button.disabled=true;const wasSaved=button.dataset.saved==='1';
-  const result=wasSaved
-    ? await supabaseClient.from('saved_posts').delete().eq('post_id',postId).eq('user_id',currentUser.id)
-    : await supabaseClient.from('saved_posts').insert({post_id:postId,user_id:currentUser.id});
+
+  if(!postId||!user||!vwDb){
+    toast('Please sign in to save posts');
+    return;
+  }
+
+  button.disabled=true;
+
+  try{
+    const ref=vwDb.ref(
+      'users/'+user.uid+'/savedPosts/'+postId
+    );
+
+    const snap=await ref.once('value');
+
+    if(snap.exists()){
+      await ref.remove();
+      button.dataset.saved='0';
+      button.textContent='♧';
+      toast('Removed from saved');
+    }else{
+      await ref.set(true);
+      button.dataset.saved='1';
+      button.textContent='▣';
+      toast('Post saved to your account');
+    }
+  }catch(e){
+    toast('Save failed: '+e.message);
+  }
+
   button.disabled=false;
-  if(result.error){toast('Save failed: '+result.error.message);return}
-  button.dataset.saved=wasSaved?'0':'1';button.textContent=wasSaved?'♧':'▣';toast(wasSaved?'Removed from saved':'Post saved to your account');
 }
 async function submitPostComment(input){
   const value=input.value.trim();if(!value)return;
